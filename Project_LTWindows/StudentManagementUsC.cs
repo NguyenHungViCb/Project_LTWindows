@@ -61,15 +61,18 @@ namespace Project_LTWindows
             departmentNameCb.DisplayMember = "DepartmentName";
             departmentNameCb.DataBindings.Clear();
             departmentNameCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "DepartmentName"));
-
+            Class allClass = new Class { ClassID = null, ClassName = "ALL", Department = null, DepartmentID = null, Lecturer = null, Students = null }; 
             var classList= stM.Classes.ToList();
-            //classList.Insert(0, new Class { ClassID = null, ClassName = "ALL" });
-            //searchClassCb.DataSource = classList;
-            //searchClassCb.DisplayMember = "ClassName";
+            classList.Insert(0, allClass);
+            searchClassCb.DataSource = classList;
+            searchClassCb.DisplayMember = "ClassName";
             //searchClassCb.DataBindings.Clear();
             //searchClassCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "ClassName"));
-            //searchDepartmentCb.DataSource = stM.Departments.ToList();
-            //searchDepartmentCb.DisplayMember = "DepartmentName";
+            Department allDepartment = new Department { DepartmentID = null, DepartmentName = "ALL" };
+            var departmentList = stM.Departments.ToList();
+            departmentList.Insert(0, allDepartment);
+            searchDepartmentCb.DataSource = departmentList;
+            searchDepartmentCb.DisplayMember = "DepartmentName";
             //searchDepartmentCb.DataBindings.Clear();
             //searchDepartmentCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "DepartmentName"));
         }
@@ -328,31 +331,52 @@ namespace Project_LTWindows
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!this.DesignMode)
-            {
-                
-                //StMDBE stM = new StMDBE();
-                //var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
-                //var studentList = _students.ToList();
-                //Class selectedClass = (Class)searchClassCb.SelectedItem;
-                //string _className = selectedClass.ClassName;
 
-                //var t = studentList.Where(st => st.ClassName == _className).Select(st => st);
-                //var l = t.ToList();
-                //if (l != null)
-                //    StudentDGrv.DataSource = l;
-                //else
-                //    LoadGridView();
-            }
-        }
         
         private void button1_Click(object sender, EventArgs e)
         {
             
         }
-        
-        
+
+        private void searchClassCb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!this.DesignMode)
+            {
+                Class selectedClass = (Class)searchClassCb.SelectedItem;
+                string _className = selectedClass.ClassName;
+                if (_className != "ALL")
+                {
+                    StMDBE stM = new StMDBE();
+                    var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
+                    var studentList = _students.ToList();
+
+                    var t = studentList.Where(st => st.ClassName == _className).Select(st => st);
+                    var l = t.ToList();
+                    StudentDGrv.DataSource = l;
+                }
+                else
+                    LoadGridView();
+            }
+        }
+
+        private void searchDepartmentCb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!this.DesignMode)
+            {
+                Department selectedDepartment = (Department)searchDepartmentCb.SelectedItem;
+                string _departmentName = selectedDepartment.DepartmentName;
+                if (_departmentName != "ALL")
+                {
+                    StMDBE stM = new StMDBE();
+                    var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
+                    var studentList = _students.ToList();
+                    var t = studentList.Where(st => st.DepartmentName == _departmentName).Select(st => st);
+                    var l = t.ToList();
+                    StudentDGrv.DataSource = l;
+                }
+                else
+                    LoadGridView();
+            }
+        }
     }
 }

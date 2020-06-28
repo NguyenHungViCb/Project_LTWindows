@@ -32,6 +32,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.Save = new System.Windows.Forms.Button();
             this.updateBt = new System.Windows.Forms.Button();
             this.resetBt = new System.Windows.Forms.Button();
@@ -72,7 +73,6 @@
             this.searchClassCb = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -136,6 +136,13 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(265, 408);
             this.panel2.TabIndex = 1;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(45, 307);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 12;
             // 
             // Save
             // 
@@ -468,6 +475,7 @@
             this.searchDepartmentCb.Name = "searchDepartmentCb";
             this.searchDepartmentCb.Size = new System.Drawing.Size(137, 21);
             this.searchDepartmentCb.TabIndex = 8;
+            this.searchDepartmentCb.SelectedIndexChanged += new System.EventHandler(this.searchDepartmentCb_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -486,7 +494,7 @@
             this.searchClassCb.Name = "searchClassCb";
             this.searchClassCb.Size = new System.Drawing.Size(137, 21);
             this.searchClassCb.TabIndex = 7;
-            this.searchClassCb.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.searchClassCb.SelectedIndexChanged += new System.EventHandler(this.searchClassCb_SelectedIndexChanged);
             // 
             // label12
             // 
@@ -505,13 +513,6 @@
             this.label13.Size = new System.Drawing.Size(32, 13);
             this.label13.TabIndex = 2;
             this.label13.Text = "Khoa";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(45, 307);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 12;
             // 
             // StudentManagementUsC
             // 
