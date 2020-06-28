@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6501fccc05a54f06a11dcb1703a1339a" Name="Diagram1">
+        <EntityTypeShape EntityType="StManagementDBModel.Class" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.Department" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.FacultyLogin" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.Grade" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.ProfileImage" Width="1.5" PointX="10" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.Student" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="StManagementDBModel.Subject" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="StManagementDBModel.FK_Classes_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="StManagementDBModel.FK_Students_Classes" ManuallyRouted="false" />
+        <AssociationConnector Association="StManagementDBModel.FK_ProfileImage_FacultyLogin" ManuallyRouted="false" />
+        <AssociationConnector Association="StManagementDBModel.FK_Grades_Students" ManuallyRouted="false" />
+        <AssociationConnector Association="StManagementDBModel.FK_Grades_Subjects" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
