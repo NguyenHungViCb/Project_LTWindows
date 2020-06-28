@@ -23,12 +23,13 @@ namespace Project_LTWindows
         {
             if (!this.DesignMode)
             {
+                textBox1.Enabled = false;
                 LoadGridView();
                 birthPicker.CustomFormat = "MMM-dd-yyyy";
                 birthPicker.Format = DateTimePickerFormat.Custom;
                 searchStIDTb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 searchStIDTb.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                //DefaultDisable();
+                DefaultDisable();
             }
         }
         private void LoadGridView()
@@ -119,72 +120,75 @@ namespace Project_LTWindows
             departmentNameCb.Enabled = true;
 
         }
+        private EventHandler<EventArgs> action;
         private void addBt_Click(object sender, EventArgs e)
         {
-            if (!this.DesignMode)
-            {
-                //DefaultEnable();
-                var yes = MessageBox.Show("Xác nhận thêm sinh viên?", "", MessageBoxButtons.YesNo);
-                StMDBE addDBE = new StMDBE();
-                if (!string.IsNullOrEmpty(studentIDTb.Text) && yes==DialogResult.Yes)
-                {
-                    var _student = addDBE.Students.Where(st => st.StudentID == studentIDTb.Text).SingleOrDefault();
-                    if (_student == null)
-                    {
-                        Student item = new Student();
-                        item.StudentID = studentIDTb.Text;
-                        item.LastName = lastNameTb.Text;
-                        item.FirstName = firstNameTb.Text;
-                        if (maleRb.Checked == true)
-                        {
-                            item.Sex = "Nam";
-                        }
-                        else if (femaleRb.Checked == true)
-                        {
-                            item.Sex = "Nữ";
-                        }
-                        item.Birth = birthPicker.Value;
-                        item.Address = addressTb.Text;
-                        Class cl = (Class)classNameCb.SelectedItem;
-                        string className = cl.ClassName;
-                        var _Class = from c in addDBE.Classes where c.ClassName == className select c;
-                        bool validate = true;
-                        Department d = (Department)departmentNameCb.SelectedItem;
-                        string departmentName = d.DepartmentName;
-                        foreach (var variable in _Class)
-                        {
-                            if (variable.Department.DepartmentName != departmentName)
-                            {
-                                MessageBox.Show("dữ liệu nhập vào không chính xác, kiểm tra lại tên lớp và tên khoa", "Error", MessageBoxButtons.OK);
-                                validate = false;
-                            }
-                            else
-                                item.ClassID = variable.ClassID;
-                        }
-                        if (validate == true)
-                        {
+            resetBt_Click(sender, e);
+            DefaultEnable();    
+            action = null;
+            action += addStudent;
+        }
+        private void addStudent(object sender, EventArgs e)
+        {
 
-                            addDBE.Students.Add(item);
-                            //LoadGridView();
-                            addDBE.SaveChanges();
-                            MessageBox.Show("dữ liệu đã được thêm vào");
+            DisableControls();
+            var yes = MessageBox.Show("Xác nhận thêm sinh viên?", "", MessageBoxButtons.YesNo);
+            StMDBE addDBE = new StMDBE();
+            if (!string.IsNullOrEmpty(studentIDTb.Text) && yes == DialogResult.Yes)//
+            {
+                var _student = addDBE.Students.Where(st => st.StudentID == studentIDTb.Text).SingleOrDefault();
+                if (_student == null)
+                {
+                    Student item = new Student();
+                    item.StudentID = studentIDTb.Text;
+                    item.LastName = lastNameTb.Text;
+                    item.FirstName = firstNameTb.Text;
+                    if (maleRb.Checked == true)
+                    {
+                        item.Sex = "Nam";
+                    }
+                    else if (femaleRb.Checked == true)
+                    {
+                        item.Sex = "Nữ";
+                    }
+                    item.Birth = birthPicker.Value;
+                    item.Address = addressTb.Text;
+                    Class cl = (Class)classNameCb.SelectedItem;
+                    string className = cl.ClassName;
+                    var _Class = from c in addDBE.Classes where c.ClassName == className select c;
+                    bool validate = true;
+                    Department d = (Department)departmentNameCb.SelectedItem;
+                    string departmentName = d.DepartmentName;
+                    foreach (var variable in _Class)
+                    {
+                        if (variable.Department.DepartmentName != departmentName)
+                        {
+                            MessageBox.Show("dữ liệu nhập vào không chính xác, kiểm tra lại tên lớp và tên khoa", "Error", MessageBoxButtons.OK);
+                            validate = false;
                         }
+                        else
+                            item.ClassID = variable.ClassID;
+                    }
+                    if (validate == true)
+                    {
+                        addDBE.Students.Add(item);
+                        addDBE.SaveChanges();
+                        MessageBox.Show("dữ liệu đã được thêm vào");
                         LoadGridView();
                     }
-                    else
-                    {
-                        MessageBox.Show("Mã sinh viên đã tồn tại trong cơ sở dữ liệu", "Error", MessageBoxButtons.OK);
-                    }
-
                 }
-                else if (string.IsNullOrEmpty(studentIDTb.Text))
+                else
                 {
-                    MessageBox.Show("Mã sinh viên không được để trống");
+                    MessageBox.Show("Mã sinh viên đã tồn tại trong cơ sở dữ liệu", "Error", MessageBoxButtons.OK);
                 }
-                
             }
-        }
+            else if (string.IsNullOrEmpty(studentIDTb.Text))
+            {
+                MessageBox.Show("Mã sinh viên không được để trống");
+            }
+            EnableControls();
 
+        }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (textBox1.Text == "Nam")
@@ -195,35 +199,47 @@ namespace Project_LTWindows
 
         private void deleteBt_Click(object sender, EventArgs e)
         {
+            
+            DefaultDisable();
+            action = null;
+            action += deleteStudent;
             DisableControls();
-            if (!this.DesignMode)
-            {
-                var choose = MessageBox.Show("xác nhân xoá sinh viên?", "Warning", MessageBoxButtons.YesNo);
-                if (DialogResult.Yes == choose)
-                {
-                    StMDBE dellDBE = new StMDBE();
-                    string StudentID = studentIDTb.Text;
-                    Student st = dellDBE.Students.Where(s => s.StudentID == StudentID).SingleOrDefault();
-                    if (st != null)
-                    {
-                        dellDBE.Students.Remove(st);
-                        dellDBE.SaveChanges();
-                        MessageBox.Show("Dữ liệu đã được cập nhật", "Success", MessageBoxButtons.OK);
-                        LoadGridView();
-                    }
-                    else
-                        MessageBox.Show("Không tìm thấy mã sinh viên, vui lòng kiểm tra lại dữ liệu", "Error", MessageBoxButtons.OK);
-                    EnableControls();
-                }
-                else
-                    EnableControls();
-            }    
+            var choose = MessageBox.Show("xác nhân xoá sinh viên?", "Warning", MessageBoxButtons.YesNo);
+            if(choose==DialogResult.Yes)
+                MessageBox.Show("Bấm lưu để xác nhận thay đổi");
+            EnableControls();
         }
-
+        private void deleteStudent(object sender, EventArgs e)
+        {
+            StMDBE dellDBE = new StMDBE();
+            string StudentID = studentIDTb.Text;
+            Student st = dellDBE.Students.Where(s => s.StudentID == StudentID).SingleOrDefault();
+            if (st != null)
+            {
+                dellDBE.Students.Remove(st);
+                dellDBE.SaveChanges();
+                MessageBox.Show("Dữ liệu đã được cập nhật", "Success", MessageBoxButtons.OK);
+                LoadGridView();
+            }
+            else
+                MessageBox.Show("Không tìm thấy mã sinh viên, vui lòng kiểm tra lại dữ liệu", "Error", MessageBoxButtons.OK);
+            EnableControls();
+        }
         private void updateBt_Click(object sender, EventArgs e)
         {
-
-            if(!this.DesignMode)
+            
+            action = null;
+            studentIDTb.Enabled = false;
+            maleRb.Enabled = false;
+            femaleRb.Enabled = false;
+            action += updateStudent;
+        }
+        private void updateStudent(object sender, EventArgs e)
+        { 
+            
+            StMDBE stM = new StMDBE();
+            var student = stM.Students.Where(st => st.StudentID == studentIDTb.Text).SingleOrDefault();
+            if (student != null)
             {
                 DisableControls();
                 var confirm = MessageBox.Show("xác nhận lưu thay đổi?", "", MessageBoxButtons.YesNo);
@@ -234,7 +250,6 @@ namespace Project_LTWindows
                     Class _class = new Class();
                     _class = (Class)classNameCb.SelectedItem;
                     string className = _class.ClassName;
-                    
                     Department _department = new Department();
                     _department = (Department)departmentNameCb.SelectedItem;
                     string departmentName = _department.DepartmentName;
@@ -246,26 +261,7 @@ namespace Project_LTWindows
                         st.FirstName = firstNameTb.Text;
                         st.Address = addressTb.Text;
                         st.Birth = birthPicker.Value;
-                        if (maleRb.Checked == true)
-                        {
-                            if (st.Sex != "Nam")
-                            {
-                                MessageBox.Show("Không thể thay đổi giới tính");
-                                femaleRb.Checked = true;
-                                validate = false;
-                            }
 
-                        }
-                        else if (femaleRb.Checked == true)
-                        {
-                            if (st.Sex != "Nữ")
-                            {
-                                MessageBox.Show("Không thể thay đổi giới tính");
-                                maleRb.Checked = true;
-                                validate = false;
-                            }
-
-                        }
                         var ClassOrDepartmentChange = from c in updateDBE.Classes where c.ClassName == className select c;
 
                         foreach (var variable in ClassOrDepartmentChange)
@@ -285,13 +281,17 @@ namespace Project_LTWindows
                             LoadGridView();
                         }
                     }
-                    else
-                        MessageBox.Show("Không tim thây ma sinh vien");
                 }
-                EnableControls();
-            }    
+                
+            }
+            else
+                MessageBox.Show("Không tìm thấy mã sinh viên");
+            EnableControls();
+            studentIDTb.Enabled = false;
+            maleRb.Enabled = false;
+            femaleRb.Enabled = false;
+            action += updateStudent;
         }
-
         private void searchStIDTb_TextChanged(object sender, EventArgs e)
         {
             if(!this.DesignMode)
@@ -335,7 +335,7 @@ namespace Project_LTWindows
         
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            action(this, e);
         }
 
         private void searchClassCb_SelectedIndexChanged(object sender, EventArgs e)
@@ -377,6 +377,21 @@ namespace Project_LTWindows
                 else
                     LoadGridView();
             }
+        }
+
+        private void resetBt_Click(object sender, EventArgs e)
+        {
+            studentIDTb.Text = null;
+            firstNameTb.Text = null;
+            lastNameTb.Text = null;
+            maleRb.Checked = true;
+            femaleRb.Checked = false;
+            birthPicker.Value = DateTime.Now;
+            addressTb.Text = null;
+            classNameCb.SelectedIndex = 0;
+            departmentNameCb.SelectedIndex = 0;
+             
+            
         }
     }
 }

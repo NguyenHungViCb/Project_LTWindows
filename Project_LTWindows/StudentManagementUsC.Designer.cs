@@ -32,7 +32,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.Save = new System.Windows.Forms.Button();
             this.updateBt = new System.Windows.Forms.Button();
             this.resetBt = new System.Windows.Forms.Button();
@@ -108,7 +107,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.textBox2);
             this.panel2.Controls.Add(this.Save);
             this.panel2.Controls.Add(this.updateBt);
             this.panel2.Controls.Add(this.resetBt);
@@ -136,13 +134,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(265, 408);
             this.panel2.TabIndex = 1;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(45, 307);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 12;
             // 
             // Save
             // 
@@ -172,6 +163,7 @@
             this.resetBt.TabIndex = 9;
             this.resetBt.Text = "Reset";
             this.resetBt.UseVisualStyleBackColor = true;
+            this.resetBt.Click += new System.EventHandler(this.resetBt_Click);
             // 
             // deleteBt
             // 
@@ -581,6 +573,5 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button Save;
-        private System.Windows.Forms.TextBox textBox2;
     }
 }

@@ -209,6 +209,7 @@
             this.studentManagementUsC1.Name = "studentManagementUsC1";
             this.studentManagementUsC1.Size = new System.Drawing.Size(821, 507);
             this.studentManagementUsC1.TabIndex = 6;
+            this.studentManagementUsC1.Load += new System.EventHandler(this.studentManagementUsC1_Load);
             // 
             // Form1
             // 

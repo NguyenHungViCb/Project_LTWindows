@@ -30,5 +30,10 @@ namespace Project_LTWindows
         {
 
         }
+
+        private void studentManagementUsC1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

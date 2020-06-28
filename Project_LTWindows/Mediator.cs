@@ -19,6 +19,24 @@ namespace Project_LTWindows
         }
 
         public EventHandler<studentEventArgs> _studentTransferer;
+        public EventHandler<EventArgs> sendAction;
+        public EventHandler<EventArgs> returnAction;
+        public void OnAction(object sender, EventArgs e)
+        {
+            var del = sendAction;
+            if(del!=null)
+            {
+                del(sender, e);
+            }    
+        }
+        public void OnReturnAction(object sender, EventArgs e)
+        {
+            var del = returnAction;
+            if(del!=null)
+            {
+                del(sender, e);
+            }    
+        }
         public void OnStudentTransferer(object sender, Student st)
         {
             var del = _studentTransferer;
