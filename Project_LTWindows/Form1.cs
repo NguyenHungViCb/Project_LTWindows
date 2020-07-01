@@ -40,14 +40,21 @@ namespace Project_LTWindows
         private void studentManagementBt_Click(object sender, EventArgs e)
         {
             gradesManagementUsCt.Hide();
+            classesManagementUsCt.Hide();
             studentManagementUsC1.Visible = true;
         }
         private void gradeManagementBt_Click(object sender, EventArgs e)
         {
             studentManagementUsC1.Hide();
+            classesManagementUsCt.Hide();
             gradesManagementUsCt.Visible = true;
         }
 
-        
+        private void button5_Click(object sender, EventArgs e)
+        {
+            studentManagementUsC1.Hide();
+            gradesManagementUsCt.Hide();
+            classesManagementUsCt.Visible = true;
+        }
     }
 }

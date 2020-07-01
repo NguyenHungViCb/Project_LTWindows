@@ -61,6 +61,12 @@
     <Compile Include="Class.cs">
       <DependentUpon>StudentManagementModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ClassesManagementUsC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClassesManagementUsC.Designer.cs">
+      <DependentUpon>ClassesManagementUsC.cs</DependentUpon>
+    </Compile>
     <Compile Include="Department.cs">
       <DependentUpon>StudentManagementModel.tt</DependentUpon>
     </Compile>
@@ -119,6 +125,9 @@
     <Compile Include="Subject.cs">
       <DependentUpon>StudentManagementModel.tt</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ClassesManagementUsC.resx">
+      <DependentUpon>ClassesManagementUsC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

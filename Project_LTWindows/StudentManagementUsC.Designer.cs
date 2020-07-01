@@ -32,7 +32,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.Save = new System.Windows.Forms.Button();
+            this.SaveBt = new System.Windows.Forms.Button();
             this.updateBt = new System.Windows.Forms.Button();
             this.resetBt = new System.Windows.Forms.Button();
             this.deleteBt = new System.Windows.Forms.Button();
@@ -107,7 +107,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.Save);
+            this.panel2.Controls.Add(this.SaveBt);
             this.panel2.Controls.Add(this.updateBt);
             this.panel2.Controls.Add(this.resetBt);
             this.panel2.Controls.Add(this.deleteBt);
@@ -135,15 +135,15 @@
             this.panel2.Size = new System.Drawing.Size(265, 408);
             this.panel2.TabIndex = 1;
             // 
-            // Save
+            // SaveBt
             // 
-            this.Save.Location = new System.Drawing.Point(172, 329);
-            this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(75, 23);
-            this.Save.TabIndex = 11;
-            this.Save.Text = "Lưu";
-            this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.button1_Click);
+            this.SaveBt.Location = new System.Drawing.Point(172, 329);
+            this.SaveBt.Name = "SaveBt";
+            this.SaveBt.Size = new System.Drawing.Size(75, 23);
+            this.SaveBt.TabIndex = 11;
+            this.SaveBt.Text = "Lưu";
+            this.SaveBt.UseVisualStyleBackColor = true;
+            this.SaveBt.Click += new System.EventHandler(this.button1_Click);
             // 
             // updateBt
             // 
@@ -386,6 +386,7 @@
             this.StudentDGrv.Name = "StudentDGrv";
             this.StudentDGrv.Size = new System.Drawing.Size(553, 306);
             this.StudentDGrv.TabIndex = 0;
+            this.StudentDGrv.Click += new System.EventHandler(this.StudentDGrv_Click);
             // 
             // StudentID
             // 
@@ -572,6 +573,6 @@
         private System.Windows.Forms.ComboBox searchClassCb;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button Save;
+        private System.Windows.Forms.Button SaveBt;
     }
 }

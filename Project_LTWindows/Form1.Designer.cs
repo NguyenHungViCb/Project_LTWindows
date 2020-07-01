@@ -43,6 +43,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.gradeManagementBt = new System.Windows.Forms.Button();
             this.studentManagementBt = new System.Windows.Forms.Button();
+            this.classesManagementUsCt = new Project_LTWindows.ClassesManagementUsC();
             this.gradesManagementUsCt = new Project_LTWindows.GradesManagement();
             this.roundedPictureBox2 = new Project_LTWindows.RoundedPictureBox();
             this.studentManagementUsC1 = new Project_LTWindows.StudentManagementUsC();
@@ -87,7 +88,7 @@
             this.MenuPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.MenuPanel.Location = new System.Drawing.Point(0, 35);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(60, 507);
+            this.MenuPanel.Size = new System.Drawing.Size(63, 507);
             this.MenuPanel.TabIndex = 7;
             // 
             // panel1
@@ -166,6 +167,7 @@
             this.button5.Size = new System.Drawing.Size(175, 59);
             this.button5.TabIndex = 21;
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button3
             // 
@@ -194,6 +196,13 @@
             this.studentManagementBt.TabIndex = 24;
             this.studentManagementBt.UseVisualStyleBackColor = true;
             this.studentManagementBt.Click += new System.EventHandler(this.studentManagementBt_Click);
+            // 
+            // classesManagementUsCt
+            // 
+            this.classesManagementUsCt.Location = new System.Drawing.Point(61, 35);
+            this.classesManagementUsCt.Name = "classesManagementUsCt";
+            this.classesManagementUsCt.Size = new System.Drawing.Size(829, 507);
+            this.classesManagementUsCt.TabIndex = 9;
             // 
             // gradesManagementUsCt
             // 
@@ -226,6 +235,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 542);
+            this.Controls.Add(this.classesManagementUsCt);
             this.Controls.Add(this.gradesManagementUsCt);
             this.Controls.Add(this.MenuPanel);
             this.Controls.Add(this.studentManagementUsC1);
@@ -261,6 +271,7 @@
         private System.Windows.Forms.Button studentManagementBt;
         private RoundedPictureBox roundedPictureBox2;
         private GradesManagement gradesManagementUsCt;
+        private ClassesManagementUsC classesManagementUsCt;
     }
 }
 

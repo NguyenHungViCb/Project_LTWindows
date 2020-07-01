@@ -15,3 +15,4 @@ C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.csproj.CopyComplete
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.GradesManagement.resources
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.csprojAssemblyReference.cache
+C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.ClassesManagementUsC.resources

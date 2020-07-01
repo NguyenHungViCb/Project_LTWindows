@@ -31,6 +31,7 @@ namespace Project_LTWindows
                 searchStIDTb.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                 searchStIDTb.AutoCompleteSource = AutoCompleteSource.CustomSource;
                 DefaultDisable();
+                SaveBt.Enabled = false;
             }
         }
         private void LoadGridView()
@@ -124,6 +125,10 @@ namespace Project_LTWindows
         private EventHandler<EventArgs> action;
         private void addBt_Click(object sender, EventArgs e)
         {
+            addBt.Enabled = false;
+            deleteBt.Enabled = false;
+            updateBt.Enabled = false;
+            SaveBt.Enabled = true;
             resetBt_Click(sender, e);
             DefaultEnable();    
             action = null;
@@ -218,6 +223,7 @@ namespace Project_LTWindows
             action = null;
             action += deleteStudent;
             DisableControls();
+            SaveBt.Enabled = true;
             var choose = MessageBox.Show("xác nhân xoá sinh viên?", "Warning", MessageBoxButtons.YesNo);
             if(choose==DialogResult.Yes)
                 MessageBox.Show("Bấm lưu để xác nhận thay đổi");
@@ -247,11 +253,14 @@ namespace Project_LTWindows
         }
         private void updateBt_Click(object sender, EventArgs e)
         {
+            SaveBt.Enabled = true;
             DefaultEnable();
             action = null;
             studentIDTb.Enabled = false;
             maleRb.Enabled = false;
             femaleRb.Enabled = false;
+            addBt.Enabled = false;
+            deleteBt.Enabled = false;
             action += updateStudent;
         }
         private void updateStudent(object sender, EventArgs e)
@@ -316,7 +325,6 @@ namespace Project_LTWindows
         {
             if(!this.DesignMode)
             {
-                
                 StMDBE stM = new StMDBE();
                 var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
                 var studentList = _students.ToList();
@@ -329,9 +337,16 @@ namespace Project_LTWindows
                 var t = studentList.Where(st => st.StudentID.Contains(searchStIDTb.Text) || st.StudentID == searchStIDTb.Text).Select(st => st);
                 var l = t.ToList();
                 StudentDGrv.DataSource = l;
+                if(studentList.Count>1)
+                {
+                    foreach(var variable in studentList)
+                    {
+
+                    }    
+                }    
             }    
         }
-
+        
         private void searchStNameTb_TextChanged(object sender, EventArgs e)
         {
             if (!this.DesignMode)
@@ -412,6 +427,17 @@ namespace Project_LTWindows
             departmentNameCb.SelectedIndex = 0;
              
             
+        }
+        
+        private void StudentDGrv_Click(object sender, EventArgs e)
+        {
+            DefaultDisable();
+            if(action!=null)
+                bindData();
+            addBt.Enabled = true;
+            deleteBt.Enabled = true;
+            updateBt.Enabled = true;
+            SaveBt.Enabled = false;
         }
     }
 }
