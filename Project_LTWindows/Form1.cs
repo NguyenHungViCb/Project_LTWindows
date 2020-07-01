@@ -15,6 +15,8 @@ namespace Project_LTWindows
         public Form1()
         {
             InitializeComponent();
+            gradesManagementUsCt.Hide();
+            studentManagementUsC1.Visible = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,5 +37,17 @@ namespace Project_LTWindows
         {
 
         }
+        private void studentManagementBt_Click(object sender, EventArgs e)
+        {
+            gradesManagementUsCt.Hide();
+            studentManagementUsC1.Visible = true;
+        }
+        private void gradeManagementBt_Click(object sender, EventArgs e)
+        {
+            studentManagementUsC1.Hide();
+            gradesManagementUsCt.Visible = true;
+        }
+
+        
     }
 }

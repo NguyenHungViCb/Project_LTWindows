@@ -41,8 +41,9 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.gradeManagementBt = new System.Windows.Forms.Button();
+            this.studentManagementBt = new System.Windows.Forms.Button();
+            this.gradesManagementUsCt = new Project_LTWindows.GradesManagement();
             this.roundedPictureBox2 = new Project_LTWindows.RoundedPictureBox();
             this.studentManagementUsC1 = new Project_LTWindows.StudentManagementUsC();
             this.panel2.SuspendLayout();
@@ -80,13 +81,13 @@
             this.MenuPanel.Controls.Add(this.button4);
             this.MenuPanel.Controls.Add(this.button5);
             this.MenuPanel.Controls.Add(this.button3);
-            this.MenuPanel.Controls.Add(this.button2);
-            this.MenuPanel.Controls.Add(this.button7);
+            this.MenuPanel.Controls.Add(this.gradeManagementBt);
+            this.MenuPanel.Controls.Add(this.studentManagementBt);
             this.MenuPanel.Controls.Add(this.roundedPictureBox2);
             this.MenuPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.MenuPanel.Location = new System.Drawing.Point(0, 35);
             this.MenuPanel.Name = "MenuPanel";
-            this.MenuPanel.Size = new System.Drawing.Size(63, 507);
+            this.MenuPanel.Size = new System.Drawing.Size(60, 507);
             this.MenuPanel.TabIndex = 7;
             // 
             // panel1
@@ -174,23 +175,32 @@
             this.button3.TabIndex = 22;
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // gradeManagementBt
             // 
-            this.button2.Location = new System.Drawing.Point(12, 245);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(175, 59);
-            this.button2.TabIndex = 23;
-            this.button2.UseVisualStyleBackColor = true;
+            this.gradeManagementBt.Location = new System.Drawing.Point(12, 245);
+            this.gradeManagementBt.Name = "gradeManagementBt";
+            this.gradeManagementBt.Size = new System.Drawing.Size(175, 59);
+            this.gradeManagementBt.TabIndex = 23;
+            this.gradeManagementBt.UseVisualStyleBackColor = true;
+            this.gradeManagementBt.Click += new System.EventHandler(this.gradeManagementBt_Click);
             // 
-            // button7
+            // studentManagementBt
             // 
-            this.button7.Image = global::Project_LTWindows.Properties.Resources.icons8_student_male_40;
-            this.button7.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button7.Location = new System.Drawing.Point(12, 180);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(175, 59);
-            this.button7.TabIndex = 24;
-            this.button7.UseVisualStyleBackColor = true;
+            this.studentManagementBt.Image = global::Project_LTWindows.Properties.Resources.icons8_student_male_40;
+            this.studentManagementBt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.studentManagementBt.Location = new System.Drawing.Point(12, 180);
+            this.studentManagementBt.Name = "studentManagementBt";
+            this.studentManagementBt.Size = new System.Drawing.Size(175, 59);
+            this.studentManagementBt.TabIndex = 24;
+            this.studentManagementBt.UseVisualStyleBackColor = true;
+            this.studentManagementBt.Click += new System.EventHandler(this.studentManagementBt_Click);
+            // 
+            // gradesManagementUsCt
+            // 
+            this.gradesManagementUsCt.Location = new System.Drawing.Point(61, 35);
+            this.gradesManagementUsCt.Name = "gradesManagementUsCt";
+            this.gradesManagementUsCt.Size = new System.Drawing.Size(829, 507);
+            this.gradesManagementUsCt.TabIndex = 8;
             // 
             // roundedPictureBox2
             // 
@@ -205,9 +215,9 @@
             // studentManagementUsC1
             // 
             this.studentManagementUsC1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.studentManagementUsC1.Location = new System.Drawing.Point(69, 35);
+            this.studentManagementUsC1.Location = new System.Drawing.Point(61, 35);
             this.studentManagementUsC1.Name = "studentManagementUsC1";
-            this.studentManagementUsC1.Size = new System.Drawing.Size(821, 507);
+            this.studentManagementUsC1.Size = new System.Drawing.Size(829, 507);
             this.studentManagementUsC1.TabIndex = 6;
             this.studentManagementUsC1.Load += new System.EventHandler(this.studentManagementUsC1_Load);
             // 
@@ -216,6 +226,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(890, 542);
+            this.Controls.Add(this.gradesManagementUsCt);
             this.Controls.Add(this.MenuPanel);
             this.Controls.Add(this.studentManagementUsC1);
             this.Controls.Add(this.panel2);
@@ -246,9 +257,10 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button gradeManagementBt;
+        private System.Windows.Forms.Button studentManagementBt;
         private RoundedPictureBox roundedPictureBox2;
+        private GradesManagement gradesManagementUsCt;
     }
 }
 

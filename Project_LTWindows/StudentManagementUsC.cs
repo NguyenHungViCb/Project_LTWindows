@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.CodeDom;
 
 namespace Project_LTWindows
 {
@@ -155,26 +156,39 @@ namespace Project_LTWindows
                     item.Address = addressTb.Text;
                     Class cl = (Class)classNameCb.SelectedItem;
                     string className = cl.ClassName;
-                    var _Class = from c in addDBE.Classes where c.ClassName == className select c;
+                    var _Class = addDBE.Classes.Where(c => c.ClassName == className).SingleOrDefault();
                     bool validate = true;
                     Department d = (Department)departmentNameCb.SelectedItem;
                     string departmentName = d.DepartmentName;
-                    foreach (var variable in _Class)
+                    if (_Class.Department.DepartmentName != departmentName)
                     {
-                        if (variable.Department.DepartmentName != departmentName)
-                        {
-                            MessageBox.Show("dữ liệu nhập vào không chính xác, kiểm tra lại tên lớp và tên khoa", "Error", MessageBoxButtons.OK);
-                            validate = false;
-                        }
-                        else
-                            item.ClassID = variable.ClassID;
+                        MessageBox.Show("dữ liệu nhập vào không chính xác, kiểm tra lại tên lớp và tên khoa", "Error", MessageBoxButtons.OK);
+                        validate = false;
                     }
+                    else
+                        item.ClassID = _Class.ClassID;
                     if (validate == true)
                     {
+                        
                         addDBE.Students.Add(item);
                         addDBE.SaveChanges();
                         MessageBox.Show("dữ liệu đã được thêm vào");
                         LoadGridView();
+                        if (_Class.DepartmentID == "CNTT")
+                        {
+
+                            Grade gr = new Grade { StudentID = item.StudentID, ClassID = item.ClassID, SubjectID = "MMT", Mid_term_Grade = null, Last_term_Grade = null, FinalGrade = null };
+                            Grade gr2 = new Grade { StudentID = item.StudentID, ClassID = item.ClassID, SubjectID = "LTW", Mid_term_Grade = null, Last_term_Grade = null, FinalGrade = null };
+                            addDBE.Grades.Add(gr);
+                            addDBE.Grades.Add(gr2);
+                            addDBE.SaveChanges();
+                        }
+                        else
+                        {
+                            Grade gr = new Grade { StudentID = item.StudentID, ClassID = item.ClassID, SubjectID = "TACB4", Mid_term_Grade = null, Last_term_Grade = null, FinalGrade = null };
+                            addDBE.Grades.Add(gr);
+                            addDBE.SaveChanges();
+                        }
                     }
                 }
                 else
@@ -214,8 +228,14 @@ namespace Project_LTWindows
             StMDBE dellDBE = new StMDBE();
             string StudentID = studentIDTb.Text;
             Student st = dellDBE.Students.Where(s => s.StudentID == StudentID).SingleOrDefault();
+            var grade = from gr in dellDBE.Grades where gr.StudentID == StudentID select gr;
+            var gradeList = grade.ToList();
             if (st != null)
             {
+                foreach(var variable in gradeList)
+                {
+                    dellDBE.Grades.Remove(variable);
+                }    
                 dellDBE.Students.Remove(st);
                 dellDBE.SaveChanges();
                 MessageBox.Show("Dữ liệu đã được cập nhật", "Success", MessageBoxButtons.OK);
@@ -227,7 +247,7 @@ namespace Project_LTWindows
         }
         private void updateBt_Click(object sender, EventArgs e)
         {
-            
+            DefaultEnable();
             action = null;
             studentIDTb.Enabled = false;
             maleRb.Enabled = false;

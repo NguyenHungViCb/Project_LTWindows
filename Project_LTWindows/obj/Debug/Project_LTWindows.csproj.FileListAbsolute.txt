@@ -13,4 +13,5 @@ C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\bin\Debug\EntityF
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.StudentManagementUsC.resources
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.csproj.CopyComplete
+C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.GradesManagement.resources
 C:\Users\Nick\source\repos\Project_LTWindows\Project_LTWindows\obj\Debug\Project_LTWindows.csprojAssemblyReference.cache
