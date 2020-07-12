@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,31 +19,41 @@ namespace Project_LTWindows
             return _Instance;
         }
 
-        public EventHandler<studentEventArgs> _studentTransferer;
-        public EventHandler<EventArgs> sendAction;
-        public EventHandler<EventArgs> returnAction;
-        public void OnAction(object sender, EventArgs e)
+        public EventHandler<int> login;
+        public EventHandler<EventArgs> reloadPanel;
+        public EventHandler<Student> deleteStraints;
+        public EventHandler<FacultyLogin> profileImgTransferer;
+        public void OnProfileImgTransferer(object sender, FacultyLogin faculty)
         {
-            var del = sendAction;
+            var del = profileImgTransferer;
+            if(del!=null)
+            {
+                del(sender, faculty);
+            }
+        }
+        public void OnDeleteStraints(object sender, Student _student)
+        {
+            var del = deleteStraints;
+            if(del!=null)
+            {
+                del(sender, _student);
+            }    
+        }
+        public void OnLogin(object sender, int e)
+        {
+            var del = login;
             if(del!=null)
             {
                 del(sender, e);
             }    
         }
-        public void OnReturnAction(object sender, EventArgs e)
+        
+        public void OnReloadPanel(object sender, EventArgs e)
         {
-            var del = returnAction;
+            var del = reloadPanel;
             if(del!=null)
             {
                 del(sender, e);
-            }    
-        }
-        public void OnStudentTransferer(object sender, Student st)
-        {
-            var del = _studentTransferer;
-            if(del!=null)
-            {
-                del(sender, new studentEventArgs { _student = st });
             }    
         }
     }

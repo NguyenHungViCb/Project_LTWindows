@@ -17,7 +17,7 @@ namespace Project_LTWindows
         public GradesManagement()
         {
             InitializeComponent();
-            transPanel.BackColor = Color.FromArgb(125, Color.Black);
+            //transPanel.BackColor = Color.FromArgb(125, Color.Black);
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -48,15 +48,28 @@ namespace Project_LTWindows
             groupBox2.Enabled = false;
             editBySjRb.Checked = true;
             editByStIDControlsPn.Visible = false;
+            editBySjDgV.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+            editByStDgV.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+            editBySjDgV.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+            editByStDgV.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+            editBySjDgV.EnableHeadersVisualStyles = false;
+            editByStDgV.EnableHeadersVisualStyles = false;
+            
             if(!this.DesignMode)
             {
                 FormLoadBinding();
-                //editBySubjectID_DgVBinding();
+                Mediator.GetInstance().reloadPanel += (s, ev) =>
+                {
+                    var bt = (Button)s;
+                    if(bt.Name== "gradesManagementBt")
+                        FormLoadBinding();
+                };
             }    
         }
 
         private void editBySjRb_Click(object sender, EventArgs e)
         {
+            resetData();
             groupBox1.Enabled = true;
             groupBox2.Enabled = false;
             editBySjRb.Checked = true;
@@ -65,6 +78,7 @@ namespace Project_LTWindows
             editByStDgV.Hide();
             transPanel.Show();
             editByStIDControlsPn.Hide();
+            studentIDTb.Text = null;
         }
 
 
@@ -77,6 +91,8 @@ namespace Project_LTWindows
             transPanel.Show();
             editByStDgV.Show();
             editByStIDControlsPn.Show();
+            subjectNameCb.SelectedIndex = 0;
+            classIDCb1.SelectedIndex = 0;
         }
         private void FormLoadBinding()
         {
@@ -308,6 +324,25 @@ namespace Project_LTWindows
             midTermGradeTb_StPn.Text = null;
             lastTermGradeTb_StPn.Text = null;
             finalGradeTb_StPn.Text = null;
+        }
+        
+        private void editByStIDControlsPn_Paint(object sender, PaintEventArgs e)
+        {
+            //var c = this.Controls;
+            //List<TextBox> textBoxes = new List<TextBox>();
+            //foreach (var item in c)
+            //{
+            //    if (item is TextBox)
+            //    {
+            //        textBoxes.Add((TextBox)item);
+            //    }
+
+            //}
+            //foreach (var item in textBoxes)
+            //{
+
+            //}
+            
         }
     }
 }

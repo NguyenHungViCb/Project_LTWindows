@@ -27,10 +27,11 @@ namespace Project_LTWindows
     
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
-        public virtual DbSet<FacultyLogin> FacultyLogins { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<ProfileImage> ProfileImages { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<FacultyLogin> FacultyLogins { get; set; }
+        public virtual DbSet<ProfileImage> ProfileImages { get; set; }
     }
 }

@@ -25,7 +25,8 @@
     <Property Name="JobTitle" Type="nvarchar" MaxLength="50" />
     <Property Name="FacultyName" Type="nvarchar" MaxLength="50" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
-    <Property Name="LastLogin" Type="datetime" />
+    <Property Name="Phone" Type="int" />
+    <Property Name="LastChangePass" Type="datetime" />
   </EntityType>
   <EntityType Name="Grades">
     <Key>
@@ -67,6 +68,16 @@
     <Property Name="SubjectID" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="SubjectName" Type="nvarchar" MaxLength="50" />
     <Property Name="Credit" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <Association Name="FK_Classes_Departments">
     <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
@@ -136,6 +147,7 @@
     <EntitySet Name="ProfileImage" EntityType="Self.ProfileImage" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Classes_Departments" Association="Self.FK_Classes_Departments">
       <End Role="Departments" EntitySet="Departments" />
       <End Role="Classes" EntitySet="Classes" />

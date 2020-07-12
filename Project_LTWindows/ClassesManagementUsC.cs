@@ -16,23 +16,46 @@ namespace Project_LTWindows
         {
             InitializeComponent();
         }
-
+        private EventHandler<EventArgs> changeColor;
+        private void OnChangeColor(object sender, EventArgs e)
+        {
+            if (saveBt.Enabled == false)
+            {
+                saveBt.ButtonColor = Color.LightPink;
+            }
+            else
+                saveBt.ButtonColor = Color.FromArgb(235, 20, 76);
+        }
         private void ClassesManagementUsC_Load(object sender, EventArgs e)
         {
             
             if(!this.DesignMode)
             {
-                DefaultDisable();
-                StMDBE stM = new StMDBE();
-                var classList = stM.Classes.ToList();
-                Class all = new Class { ClassID = "ALL", ClassName = null, Department = null, DepartmentID = null, Lecturer = null, Students = null };
-                classList.Insert(0, all);
-                classIDCb.DataSource = classList;
-                classIDCb.DisplayMember = "ClassID";
 
+                Mediator.GetInstance().reloadPanel += (s, ev) =>
+                {
+                    LoadFormBinding();
+                    LoadDgV();
+                };
+                classDgV.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+                classDgV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+                classDgV.EnableHeadersVisualStyles = false;
+                DefaultDisable();
+                LoadFormBinding();
                 LoadDgV();
+                changeColor += OnChangeColor;
                 saveBt.Enabled = false;
+                changeColor(this, e);
             }    
+        }
+        private void LoadFormBinding()
+        {
+            StMDBE stM = new StMDBE();
+            var classList = stM.Classes.ToList();
+            Class all = new Class { ClassID = "ALL", ClassName = null, Department = null, DepartmentID = null, Lecturer = null, Students = null };
+            classList.Insert(0, all);
+            classIDCb.DataSource = classList;
+            classIDCb.DisplayMember = "ClassID";
         }
         private void DefaultDisable()
         {
@@ -134,6 +157,10 @@ namespace Project_LTWindows
             deleteBt.Enabled = false;
             updateBt.Enabled = false;
             saveBt.Enabled = true;
+            addBt.ButtonColor = Color.LightPink;
+            deleteBt.ButtonColor = Color.LightPink;
+            updateBt.ButtonColor = Color.LightPink;
+            changeColor(this, e);
             ResetData();
             DefaultEnable();
             studentCountTb.Enabled = false;
@@ -156,7 +183,9 @@ namespace Project_LTWindows
                         StM.Classes.Add(c);
                         StM.SaveChanges();
                         MessageBox.Show("dữ liệu đã được cập nhật");
+                        LoadFormBinding();
                         LoadDgV();
+                        //Mediator.GetInstance().reloadPanel += ClassesManagementUsC_Load;
                     }
                     else
                         MessageBox.Show("Mã lớp học không được để trống");
@@ -174,20 +203,43 @@ namespace Project_LTWindows
                 if (DialogResult.Yes == choice)
                 {
                     saveBt.Enabled = true;
+                    changeColor(this, e);
                     MessageBox.Show("Nhấn lưu để xác nhận thay đổi");
                     action = null;
                     action += deleteClass;
+                    
                 }
+                
             }    
         }
         private void deleteClass(object sender, EventArgs e)
         {
             StMDBE StM = new StMDBE();
             var _class = StM.Classes.Where(c => c.ClassID == classIDTb.Text).SingleOrDefault();
+            var student = StM.Students.Where(st => st.ClassID == classIDTb.Text).SingleOrDefault();
+            if(student!=null)
+            {
+                var grade = from gr in StM.Grades where gr.StudentID == student.StudentID select gr;
+                if (grade != null)
+                {
+                    var gradeList = grade.ToList();
+                    if (student != null)
+                    {
+                        foreach (var variable in gradeList)
+                        {
+                            StM.Grades.Remove(variable);
+                        }
+                        StM.Students.Remove(student);
+                        StM.SaveChanges();
+                    }
+                }
+            }
             StM.Classes.Remove(_class);
             StM.SaveChanges();
             LoadDgV();
+            LoadFormBinding();
             MessageBox.Show("Dữ liệu đã được cập nhật");
+            saveBt.Enabled = false;
         }
         private void updateBt_Click(object sender, EventArgs e)
         {
@@ -195,8 +247,13 @@ namespace Project_LTWindows
             classIDTb.Enabled = false;
             studentCountTb.Enabled = false;
             saveBt.Enabled = true;
+            changeColor(this, e);
             addBt.Enabled = false;
+            addBt.ButtonColor = Color.LightPink;
             deleteBt.Enabled = false;
+            deleteBt.ButtonColor = Color.LightPink;
+            updateBt.Enabled = false;
+            updateBt.ButtonColor = Color.LightPink;
             action = null;
             action += updateClass;
         }
@@ -206,6 +263,7 @@ namespace Project_LTWindows
             Class _class = StM.Classes.Where(c => c.ClassID == classIDTb.Text).SingleOrDefault();
             if (_class != null)
             {
+                //var student = from st in StM.Students where st.ClassID == _class.ClassID select st;
                 _class.ClassID = classIDTb.Text;
                 _class.ClassName = classNameTb.Text;
                 _class.Lecturer = lecturerTb.Text;
@@ -214,11 +272,14 @@ namespace Project_LTWindows
                 StM.SaveChanges();
                 LoadDgV();
                 MessageBox.Show("Dữ liệu đã được cập nhật");
+                
+                
             }
         }
         private void saveBt_Click(object sender, EventArgs e)
         {
             action(this, e);
+            //Mediator.GetInstance().OnReloadPanel(this, e);
         }
 
         private void classDgV_Click(object sender, EventArgs e)
@@ -229,6 +290,10 @@ namespace Project_LTWindows
             deleteBt.Enabled = true;
             updateBt.Enabled = true;
             saveBt.Enabled = false;
+            addBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            deleteBt.ButtonColor = Color.FromArgb(235,20,76);
+            updateBt.ButtonColor = Color.FromArgb(235,20,76);
+            changeColor(this, e);
         }
 
         

@@ -25,7 +25,8 @@ namespace Project_LTWindows
         public string JobTitle { get; set; }
         public string FacultyName { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> LastLogin { get; set; }
+        public Nullable<int> Phone { get; set; }
+        public Nullable<System.DateTime> LastChangePass { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProfileImage> ProfileImages { get; set; }

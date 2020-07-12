@@ -24,7 +24,9 @@ namespace Project_LTWindows
         {
             if (!this.DesignMode)
             {
-                textBox1.Enabled = false;
+                textBox1.Visible = false;
+                StudentDGrv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(235, 20, 76);
+                StudentDGrv.EnableHeadersVisualStyles = false;
                 LoadGridView();
                 birthPicker.CustomFormat = "MMM-dd-yyyy";
                 birthPicker.Format = DateTimePickerFormat.Custom;
@@ -32,6 +34,15 @@ namespace Project_LTWindows
                 searchStIDTb.AutoCompleteSource = AutoCompleteSource.CustomSource;
                 DefaultDisable();
                 SaveBt.Enabled = false;
+                changeColor();
+                Mediator.GetInstance().reloadPanel += (s, ev) =>
+                {
+                    var bt = (Button)s;
+                    if(bt.Name== "studentManagementBt")
+                        LoadGridView();
+                };
+                Mediator.GetInstance().deleteStraints = null;
+                
             }
         }
         private void LoadGridView()
@@ -39,6 +50,18 @@ namespace Project_LTWindows
             StMDBE stM = new StMDBE();
             var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
             StudentDGrv.DataSource = _students.ToList();
+            Class allClass = new Class { ClassID = null, ClassName = "ALL", Department = null, DepartmentID = null, Lecturer = null, Students = null };
+            var classList = stM.Classes.ToList();
+            classList.Insert(0, allClass);
+            searchClassCb.DataSource = classList;
+            searchClassCb.DisplayMember = "ClassName";
+            //searchClassCb.DataBindings.Clear();
+            //searchClassCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "ClassName"));
+            Department allDepartment = new Department { DepartmentID = null, DepartmentName = "ALL" };
+            var departmentList = stM.Departments.ToList();
+            departmentList.Insert(0, allDepartment);
+            searchDepartmentCb.DataSource = departmentList;
+            searchDepartmentCb.DisplayMember = "DepartmentName";
             bindData();
         }
         private void bindData()
@@ -64,18 +87,7 @@ namespace Project_LTWindows
             departmentNameCb.DisplayMember = "DepartmentName";
             departmentNameCb.DataBindings.Clear();
             departmentNameCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "DepartmentName"));
-            Class allClass = new Class { ClassID = null, ClassName = "ALL", Department = null, DepartmentID = null, Lecturer = null, Students = null }; 
-            var classList= stM.Classes.ToList();
-            classList.Insert(0, allClass);
-            searchClassCb.DataSource = classList;
-            searchClassCb.DisplayMember = "ClassName";
-            //searchClassCb.DataBindings.Clear();
-            //searchClassCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "ClassName"));
-            Department allDepartment = new Department { DepartmentID = null, DepartmentName = "ALL" };
-            var departmentList = stM.Departments.ToList();
-            departmentList.Insert(0, allDepartment);
-            searchDepartmentCb.DataSource = departmentList;
-            searchDepartmentCb.DisplayMember = "DepartmentName";
+            
             //searchDepartmentCb.DataBindings.Clear();
             //searchDepartmentCb.DataBindings.Add(new Binding("Text", StudentDGrv.DataSource, "DepartmentName"));
         }
@@ -128,7 +140,11 @@ namespace Project_LTWindows
             addBt.Enabled = false;
             deleteBt.Enabled = false;
             updateBt.Enabled = false;
+            addBt.ButtonColor = Color.LightPink;
+            deleteBt.ButtonColor = Color.LightPink;
+            updateBt.ButtonColor = Color.LightPink;
             SaveBt.Enabled = true;
+            changeColor();
             resetBt_Click(sender, e);
             DefaultEnable();    
             action = null;
@@ -136,7 +152,6 @@ namespace Project_LTWindows
         }
         private void addStudent(object sender, EventArgs e)
         {
-
             DisableControls();
             var yes = MessageBox.Show("Xác nhận thêm sinh viên?", "", MessageBoxButtons.YesNo);
             StMDBE addDBE = new StMDBE();
@@ -201,12 +216,15 @@ namespace Project_LTWindows
                     MessageBox.Show("Mã sinh viên đã tồn tại trong cơ sở dữ liệu", "Error", MessageBoxButtons.OK);
                 }
             }
+            else if(yes==DialogResult.No)
+            {
+                //Do nothing
+            }    
             else if (string.IsNullOrEmpty(studentIDTb.Text))
             {
                 MessageBox.Show("Mã sinh viên không được để trống");
             }
             EnableControls();
-
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -220,17 +238,42 @@ namespace Project_LTWindows
         {
             
             DefaultDisable();
-            action = null;
-            action += deleteStudent;
-            DisableControls();
+            //addBt.Enabled = false;
+            //addBt.ButtonColor = Color.LightPink;
+            //deleteBt.Enabled = false;
+            //deleteBt.ButtonColor = Color.LightPink;
+            //updateBt.Enabled = false;
+            //updateBt.ButtonColor = Color.LightPink;
+            //resetBt.Enabled = false;
+            //resetBt.ButtonColor = Color.LightPink;
+            //DisableControls();
             SaveBt.Enabled = true;
+            changeColor();
             var choose = MessageBox.Show("xác nhân xoá sinh viên?", "Warning", MessageBoxButtons.YesNo);
             if(choose==DialogResult.Yes)
+            {
+                action = null;
+                action += deleteStudent;
                 MessageBox.Show("Bấm lưu để xác nhận thay đổi");
-            EnableControls();
+            }
+            else
+            {
+                addBt.Enabled = true;
+                addBt.ButtonColor = Color.FromArgb(235, 20, 76);
+                deleteBt.Enabled = true;
+                deleteBt.ButtonColor = Color.FromArgb(235, 20, 76);
+                updateBt.Enabled = true;
+                updateBt.ButtonColor = Color.FromArgb(235, 20, 76);
+                resetBt.Enabled = true;
+                resetBt.ButtonColor = Color.FromArgb(235, 20, 76);
+                SaveBt.Enabled = false;
+                changeColor();
+            }
+            //EnableControls();
         }
         private void deleteStudent(object sender, EventArgs e)
         {
+            
             StMDBE dellDBE = new StMDBE();
             string StudentID = studentIDTb.Text;
             Student st = dellDBE.Students.Where(s => s.StudentID == StudentID).SingleOrDefault();
@@ -249,11 +292,23 @@ namespace Project_LTWindows
             }
             else
                 MessageBox.Show("Không tìm thấy mã sinh viên, vui lòng kiểm tra lại dữ liệu", "Error", MessageBoxButtons.OK);
-            EnableControls();
+            //addBt.Enabled = true;
+            //addBt.ButtonColor = Color.FromArgb(235,20,76);
+            //deleteBt.Enabled = true;
+            //deleteBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            //updateBt.Enabled = true;
+            //updateBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            //resetBt.Enabled = true;
+            //resetBt.ButtonColor = Color.FromArgb(235, 20, 76);
         }
         private void updateBt_Click(object sender, EventArgs e)
         {
             SaveBt.Enabled = true;
+            changeColor();
+            addBt.ButtonColor = Color.LightPink;
+            deleteBt.ButtonColor = Color.LightPink;
+            updateBt.ButtonColor = Color.LightPink;
+            //SaveBt.Enabled = true;
             DefaultEnable();
             action = null;
             studentIDTb.Enabled = false;
@@ -264,8 +319,7 @@ namespace Project_LTWindows
             action += updateStudent;
         }
         private void updateStudent(object sender, EventArgs e)
-        { 
-            
+        {    
             StMDBE stM = new StMDBE();
             var student = stM.Students.Where(st => st.StudentID == studentIDTb.Text).SingleOrDefault();
             if (student != null)
@@ -319,7 +373,7 @@ namespace Project_LTWindows
             studentIDTb.Enabled = false;
             maleRb.Enabled = false;
             femaleRb.Enabled = false;
-            action += updateStudent;
+            //action += updateStudent;
         }
         private void searchStIDTb_TextChanged(object sender, EventArgs e)
         {
@@ -337,13 +391,7 @@ namespace Project_LTWindows
                 var t = studentList.Where(st => st.StudentID.Contains(searchStIDTb.Text) || st.StudentID == searchStIDTb.Text).Select(st => st);
                 var l = t.ToList();
                 StudentDGrv.DataSource = l;
-                if(studentList.Count>1)
-                {
-                    foreach(var variable in studentList)
-                    {
-
-                    }    
-                }    
+                bindData();
             }    
         }
         
@@ -363,14 +411,22 @@ namespace Project_LTWindows
                 var t = studentList.Where(st =>st.LastName.Contains(searchStNameTb.Text) || st.LastName==searchStNameTb.Text || st.FirstName.Contains(searchStNameTb.Text) || st.FirstName == searchStNameTb.Text).Select(st => st);
                 var l = t.ToList();
                 StudentDGrv.DataSource = l;
+                bindData();
             }
         }
 
 
-        
+        private EventHandler<EventArgs> saveBtClicked;
         private void button1_Click(object sender, EventArgs e)
         {
             action(this, e);
+            if(saveBtClicked!=null)
+            {
+                saveBtClicked(this, e);
+                SaveBt.Enabled = false;
+                changeColor();
+            }    
+                
         }
 
         private void searchClassCb_SelectedIndexChanged(object sender, EventArgs e)
@@ -384,10 +440,10 @@ namespace Project_LTWindows
                     StMDBE stM = new StMDBE();
                     var _students = from st in stM.Students select new { StudentID = st.StudentID, LastName = st.LastName, FirstName = st.FirstName, Sex = st.Sex, Birth = st.Birth, Address = st.Address, ClassName = st.Class.ClassName, DepartmentName = st.Class.Department.DepartmentName };
                     var studentList = _students.ToList();
-
                     var t = studentList.Where(st => st.ClassName == _className).Select(st => st);
                     var l = t.ToList();
                     StudentDGrv.DataSource = l;
+                    bindData();
                 }
                 else
                     LoadGridView();
@@ -408,6 +464,7 @@ namespace Project_LTWindows
                     var t = studentList.Where(st => st.DepartmentName == _departmentName).Select(st => st);
                     var l = t.ToList();
                     StudentDGrv.DataSource = l;
+                    bindData();
                 }
                 else
                     LoadGridView();
@@ -415,6 +472,12 @@ namespace Project_LTWindows
         }
 
         private void resetBt_Click(object sender, EventArgs e)
+        {
+            action = null;
+            action += resetData;
+            action(this, e);
+        }
+        private void resetData(object sender, EventArgs e)
         {
             studentIDTb.Text = null;
             firstNameTb.Text = null;
@@ -425,19 +488,34 @@ namespace Project_LTWindows
             addressTb.Text = null;
             classNameCb.SelectedIndex = 0;
             departmentNameCb.SelectedIndex = 0;
-             
-            
         }
-        
         private void StudentDGrv_Click(object sender, EventArgs e)
         {
             DefaultDisable();
-            if(action!=null)
-                bindData();
+            if (action != null)
+            {
+                if (action.Method.Name == "addStudent" || action.Method.Name == "resetData")
+                {
+                    bindData();
+                    action = null;
+                }
+            }
             addBt.Enabled = true;
             deleteBt.Enabled = true;
             updateBt.Enabled = true;
             SaveBt.Enabled = false;
+            addBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            deleteBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            updateBt.ButtonColor = Color.FromArgb(235, 20, 76);
+            changeColor();
+
+        }
+        private void changeColor()
+        {
+            if (SaveBt.Enabled == false)
+                SaveBt.ButtonColor = Color.LightPink;
+            else
+                SaveBt.ButtonColor = Color.FromArgb(235, 20, 76);
         }
     }
 }
